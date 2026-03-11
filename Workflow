@@ -3,3 +3,22 @@
 #using linux ubuntu
 
 #create new R session
+conda create -n damid_analysis \
+  r-base \
+  bioconductor-genomicranges \
+  bioconductor-iranges \
+  bioconductor-rtracklayer \
+  bioconductor-s4vectors \
+  bioconductor-genomeinfodb \
+  r-ggplot2
+
+conda activate damid_analysis
+
+#move into R session
+
+#---------------------------------set-up----------------------------------
+#download damidBind
+if (!requireNamespace("BiocManager", quietly=TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("damidBind")
