@@ -1,0 +1,5 @@
+#DamID data analysis with R Studio
+
+#using linux ubuntu
+
+#create new R session
