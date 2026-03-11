@@ -22,3 +22,12 @@ if (!requireNamespace("BiocManager", quietly=TRUE))
     install.packages("BiocManager")
 
 BiocManager::install("damidBind")
+
+#load packages
+library(damidBind)
+library(GenomicRanges)
+library(rtracklayer)
+
+library(ggplot2)
+library(ComplexHeatmap)
+library(Gviz)
