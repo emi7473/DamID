@@ -24,8 +24,9 @@ if (!requireNamespace("BiocManager", quietly=TRUE))
 BiocManager::install("damidBind")
 
 #or if newer R version, install from GitHub
-install.packages("remotes")
-remotes::install_github("owenjm/damidBind")
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("marshall-lab/damidBind")
 
 #load packages
 library(damidBind)
