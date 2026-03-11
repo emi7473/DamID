@@ -23,6 +23,10 @@ if (!requireNamespace("BiocManager", quietly=TRUE))
 
 BiocManager::install("damidBind")
 
+#or if newer R version, install from GitHub
+install.packages("remotes")
+remotes::install_github("owenjm/damidBind")
+
 #load packages
 library(damidBind)
 library(GenomicRanges)
