@@ -1,38 +1,75 @@
 #DamID data analysis with R Studio
+#using macOS
 
-#using linux ubuntu
-
-#create new R session
-conda create -n damid_analysis \
-  r-base \
-  bioconductor-genomicranges \
-  bioconductor-iranges \
-  bioconductor-rtracklayer \
-  bioconductor-s4vectors \
-  bioconductor-genomeinfodb \
-  r-ggplot2
-
-conda activate damid_analysis
-
-#move into R session
-
-#---------------------------------set-up----------------------------------
-#download damidBind
-if (!requireNamespace("BiocManager", quietly=TRUE))
-    install.packages("BiocManager")
-
-BiocManager::install("damidBind")
-
-#or if newer R version, install from GitHub
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("marshall-lab/damidBind")
-
-#load packages
+#---------------------------download-and-install-packages-----------------------
+install.packages("remotes")
+install.packages("png")
+BiocManager::install(c("GO.db", "biomaRt"))
+remotes::install_github("marshall-lab/damidBind")
 library(damidBind)
-library(GenomicRanges)
-library(rtracklayer)
 
-library(ggplot2)
-library(ComplexHeatmap)
+if (!requireNamespace("BiocManager", quietly = TRUE))
+  install.packages("BiocManager")
+
+#bioconductor packages
+BiocManager::install(c(
+  "damidBind", "rtracklayer", "GenomicRanges", "IRanges",
+  "SummarizedExperiment", "S4Vectors", "BiocGenerics",
+  "TxDb.Dmelanogaster.UCSC.dm6.ensGene", "org.Dm.eg.db", "biomaRt",
+  "Gviz", "ComplexHeatmap", "pheatmap"
+))
+
+#CRAN packages
+install.packages(c("ggplot2", "RColorBrewer", "dplyr", "tidyr"))
+
+library(damidBind)
+library(rtracklayer)
+library(GenomicRanges)
+library(IRanges)
+library(SummarizedExperiment)
+library(S4Vectors)
+library(BiocGenerics)
+library(TxDb.Dmelanogaster.UCSC.dm6.ensGene)
+library(org.Dm.eg.db)
+library(biomaRt)
 library(Gviz)
+library(ComplexHeatmap)
+library(pheatmap)
+library(ggplot2)
+library(RColorBrewer)
+library(dplyr)
+library(tidyr)
+
+#----------------------------------load-files-----------------------------------
+samples <- data.frame(
+  sample = c(
+    "E2F1_n1", "E2F1_n2",
+    "E2F2_n1", "E2F2_n2",
+    "Rbf_n1",  "Rbf_n2"
+  ),
+  
+  condition = c(
+    "E2F1", "E2F1",
+    "E2F2", "E2F2",
+    "Rbf",  "Rbf"
+  ),
+  
+  replicate = c(
+    "n1", "n2",
+    "n1", "n2",
+    "n1", "n2"
+  ),
+  
+  file = c(
+    "/Users/emi/DamID/DamID/bedgraphs/E2F1_Syb-nano_n1_-vs-Dam.kde-norm.gatc.bedgraph",
+    "/Users/emi/DamID/DamID/bedgraphs/E2F1_Syb-nano_n2_-vs-Dam.kde-norm.gatc.bedgraph",
+    
+    "/Users/emi/DamID/DamID/bedgraphs/E2F2_Syb-nano_n1_-vs-Dam.kde-norm.gatc.bedgraph",
+    "/Users/emi/DamID/DamID/bedgraphs/E2F2_Syb-nano_n2_-vs-Dam.kde-norm.gatc.bedgraph",
+    
+    "/Users/emi/DamID/DamID/bedgraphs/Rbf_Syb-nano_n1_-vs-Dam.kde-norm.gatc.bedgraph",
+    "/Users/emi/DamID/DamID/bedgraphs/Rbf_Syb-nano_n2_-vs-Dam.kde-norm.gatc.bedgraph"
+  )
+)
+
+
