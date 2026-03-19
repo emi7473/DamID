@@ -86,4 +86,28 @@ data2 <- load_data_peaks(
 
 #follow rest of code using data2 to run without normalisation
 
+#-----------------------------------save-data-----------------------------------
+install.packages("openxlsx")  
+library(openxlsx)
+df_E2F1_Rbf  <- analysisTable(results_E2F1_Rbf)
+df_E2F1_E2F2 <- analysisTable(results_E2F1_E2F2)
+df_E2F2_Rbf  <- analysisTable(results_E2F2_Rbf)
 
+saveRDS(df_E2F1_Rbf,  "E2F1_vs_Rbf.rds")
+saveRDS(df_E2F1_E2F2, "E2F1_vs_E2F2.rds")
+saveRDS(df_E2F2_Rbf,  "E2F2_vs_Rbf.rds")
+saveRDS(data, "damidBind_data_object.rds")
+
+write.xlsx(df_E2F1_Rbf,  "E2F1_vs_Rbf.xlsx")
+write.xlsx(df_E2F1_E2F2, "E2F1_vs_E2F2.xlsx")
+write.xlsx(df_E2F2_Rbf,  "E2F2_vs_Rbf.xlsx")
+
+#or all in one file
+write.xlsx(
+  list(
+    E2F1_vs_Rbf  = df_E2F1_Rbf,
+    E2F1_vs_E2F2 = df_E2F1_E2F2,
+    E2F2_vs_Rbf  = df_E2F2_Rbf
+  ),
+  file = "DamID_pairwise_results.xlsx"
+)
