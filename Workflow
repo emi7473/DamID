@@ -40,36 +40,50 @@ library(RColorBrewer)
 library(dplyr)
 library(tidyr)
 
-#----------------------------------load-files-----------------------------------
-samples <- data.frame(
-  sample = c(
-    "E2F1_n1", "E2F1_n2",
-    "E2F2_n1", "E2F2_n2",
-    "Rbf_n1",  "Rbf_n2"
-  ),
-  
-  condition = c(
-    "E2F1", "E2F1",
-    "E2F2", "E2F2",
-    "Rbf",  "Rbf"
-  ),
-  
-  replicate = c(
-    "n1", "n2",
-    "n1", "n2",
-    "n1", "n2"
-  ),
-  
-  file = c(
-    "/Users/emi/DamID/DamID/bedgraphs/E2F1_Syb-nano_n1_-vs-Dam.kde-norm.gatc.bedgraph",
-    "/Users/emi/DamID/DamID/bedgraphs/E2F1_Syb-nano_n2_-vs-Dam.kde-norm.gatc.bedgraph",
-    
-    "/Users/emi/DamID/DamID/bedgraphs/E2F2_Syb-nano_n1_-vs-Dam.kde-norm.gatc.bedgraph",
-    "/Users/emi/DamID/DamID/bedgraphs/E2F2_Syb-nano_n2_-vs-Dam.kde-norm.gatc.bedgraph",
-    
-    "/Users/emi/DamID/DamID/bedgraphs/Rbf_Syb-nano_n1_-vs-Dam.kde-norm.gatc.bedgraph",
-    "/Users/emi/DamID/DamID/bedgraphs/Rbf_Syb-nano_n2_-vs-Dam.kde-norm.gatc.bedgraph"
-  )
+setwd("/Users/emi/TaDA")
+list.files()
+
+#---------------------------with-quantile-normalisation-------------------------
+data <- load_data_peaks(
+  binding_profiles_path = "/Users/emi/TaDA",
+  peaks_path = "/Users/emi/TaDA",
+  quantile_norm = TRUE
 )
+
+#---------------------------------E2F1-vs-Rbf-----------------------------------
+results_E2F1_Rbf <- differential_binding(data, cond = c("E2F1", "Rbf"))
+
+plot_volcano(results_E2F1_Rbf)
+plot_venn(results_E2F1_Rbf)
+analyse_go_enrichment(results_E2F1_Rbf)
+browse_igv_regions(results_E2F1_Rbf)
+
+#---------------------------------E2F1-vs-E2F2----------------------------------
+results_E2F1_E2F2 <- differential_binding(data, cond = c("E2F1", "E2F2"))
+
+plot_volcano(results_E2F1_E2F2)
+plot_venn(results_E2F1_E2F2)
+analyse_go_enrichment(results_E2F1_E2F2)
+browse_igv_regions(results_E2F1_E2F2)
+
+#---------------------------------E2F2-vs-Rbf-----------------------------------
+results_E2F2_Rbf <- differential_binding(
+  data,
+  cond = c("E2F2", "Rbf")
+)
+
+plot_volcano(results_E2F2_Rbf)
+plot_venn(results_E2F2_Rbf)
+analyse_go_enrichment(results_E2F2_Rbf)
+browse_igv_regions(results_E2F2_Rbf)
+
+#--------------------------without-quantile-normalisation-----------------------
+data2 <- load_data_peaks(
+  binding_profiles_path = "/Users/emi/TaDA",
+  peaks_path = "/Users/emi/TaDA",
+  quantile_norm = FALSE
+)
+
+#follow rest of code using data2 to run without normalisation
 
 
